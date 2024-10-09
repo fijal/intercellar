@@ -26,7 +26,7 @@ public class Mothership : MonoBehaviour
     }
 
     // Update is called once per frame
-    void FixedUpdate()
+    void Update()
     {
         if (Input.GetKeyDown(KeyCode.Mouse0))
         {
@@ -35,6 +35,10 @@ public class Mothership : MonoBehaviour
                                          new GrowBubble(bubble), new Destroy() };
             ship.GetComponent<Robot>().setActions(actions);
         }
+    }
+
+    void FixedUpdate()
+    {
         foreach (var k in movement)
         {
             if (Input.GetKey(k.Key))
