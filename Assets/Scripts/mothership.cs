@@ -8,11 +8,13 @@ public class Mothership : MonoBehaviour
     public GameObject starship;
     public GameObject bubble;
     public GameObject asteroid;
-    public GameObject[] pipes;
-    public Vector3 attachmentPoint;
-
+    public GameObject pipe;
+    
     const float SPEED = 0.03f;
     const float FUEL_CONSUMPTION = -0.005f;
+
+    HashSet<GameObject> baseObjects;
+    HashSet<GameObject> pipes;
 
     Dictionary<KeyCode, Vector3> movement;
 
@@ -23,6 +25,13 @@ public class Mothership : MonoBehaviour
         movement.Add(KeyCode.W, new Vector3(0, SPEED, 0));
         movement.Add(KeyCode.S, new Vector3(0, -SPEED, 0));
         movement.Add(KeyCode.D, new Vector3(SPEED, 0, 0));
+
+        baseObjects = new HashSet<GameObject>();
+        baseObjects.Add(bubble);
+        baseObjects.Add(this.gameObject);
+
+        pipes = new HashSet<GameObject>();
+        pipes.Add(pipe);
     }
 
     // Update is called once per frame
@@ -49,5 +58,14 @@ public class Mothership : MonoBehaviour
                 }
             }
         }
+
+        foreach (var pipe in pipes)
+            pipe.GetComponent<PipeController>().computeForces();
+
+        foreach (var baseObject in baseObjects)
+            baseObject.GetComponent<PhysicsObject>().computeMovement();
+        
+        foreach (var pipe in pipes)
+            pipe.GetComponent<PipeController>().computeStretch();
     }
 }

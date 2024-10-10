@@ -7,6 +7,9 @@ public class PhysicsObject : MonoBehaviour
     public float resistance = 0.01f;
     const float MIN_SPEED = 0.01f;
 
+    public GameObject pipe;
+    public Vector3 attachmentPoint;
+
     Vector3 speed;
     
     public void addForce(Vector3 force)
@@ -14,7 +17,7 @@ public class PhysicsObject : MonoBehaviour
         speed += force / mass;
     }
 
-    public void FixedUpdate()
+    public void computeMovement()
     {
         transform.position += speed;
         speed /= (resistance + 1f);
