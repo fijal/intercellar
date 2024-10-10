@@ -23,16 +23,16 @@ public class PipeController : MonoBehaviour
 
     public void computeForces()
     {
-        return;
         if (transform.localScale.x == 1f)
             return;
         float forceV;
         if (transform.localScale.x < 1f)
         {
-            forceV = -1 / transform.localScale.x;
+            forceV = 0;
+            //forceV = (1 / transform.localScale.x - 1) / 100;
         } else
         {
-            forceV = transform.localScale.x;
+            forceV = (transform.localScale.x - 1) / 100;
         }
         var force = getPipeVector().normalized * forceV;
         start.GetComponent<PhysicsObject>().addForce(force);
