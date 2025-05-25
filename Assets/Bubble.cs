@@ -12,18 +12,10 @@ public class Bubble : MonoBehaviour
     public bool onGround;
     const float mass = 1.0f;
 
-    Collider2D my_collider;
-    CircleCollider2D larger_circle_collider;
-
     private void Start()
     {
         var my_coll = gameObject.AddComponent<CircleCollider2D>();
         my_coll.radius = 0.93f;
-        my_collider = my_coll;
-
-        larger_circle_collider = gameObject.AddComponent<CircleCollider2D>();
-        larger_circle_collider.isTrigger = true;
-        larger_circle_collider.radius = 4f;
     }
 
     public void applyForce(float force, Vector2 direction)
