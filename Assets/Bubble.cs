@@ -35,27 +35,10 @@ public class Bubble : MonoBehaviour
     {
         var a = force / mass;
         velocity += a * 0.1f;
-        velocity += new Vector2(0, onGround ? 0.005f : -0.002f);
+        velocity += new Vector2(0, onGround ? 0.010f : -0.002f);
         velocity *= 0.95f;
         transform.localPosition += new Vector3(velocity.x, velocity.y, 0);
         
         onGround = false;
-    }
-
-    static List<Collider2D> _other_colls = new List<Collider2D>();
-
-    public void MoveAwayFromNearbyBubbles()
-    {
-        larger_circle_collider.OverlapCollider(new ContactFilter2D(), _other_colls);
-        foreach (var coll in _other_colls)
-        {
-            var bubble = coll.GetComponent<Bubble>();
-            if (bubble != null && bubble != this)
-                //&& bubble.transform.localPosition.y < transform.localPosition.y)
-            {
-                float f = Mathf.Clamp(0, 0.04f, transform.localPosition.y - bubble.transform.localPosition.y);
-                applyForce(f, transform.localPosition - bubble.transform.localPosition);
-            }
-        }
     }
 }

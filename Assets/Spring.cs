@@ -10,9 +10,14 @@ public class Spring : MonoBehaviour
 
     public void calculateForces()
     {
-        var d = Vector2.Distance(start.transform.localPosition, end.transform.localPosition);
-        start.applyForce((d - LENGTH), end.transform.localPosition - start.transform.localPosition);
-        end.applyForce((LENGTH - d), end.transform.localPosition - start.transform.localPosition);
+        Vector2 v_along = end.transform.localPosition - start.transform.localPosition;
+        float d = Vector2.Distance(start.transform.localPosition, end.transform.localPosition);
+        start.applyForce(d - LENGTH, v_along);
+        end.applyForce(LENGTH - d, v_along);
+
+        Vector2 v_transverse = new Vector2(v_along.y, -v_along.x);
+        start.applyForce(0.04f, v_transverse);
+        end.applyForce(0.04f, v_transverse);
     }
 
     public void adjustPosition()

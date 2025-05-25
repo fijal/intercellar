@@ -24,11 +24,6 @@ public class Physics2 : MonoBehaviour
         {
             spring.calculateForces();
         }
-        foreach (var bubble in bubbles)
-        {
-            bubble.MoveAwayFromNearbyBubbles();
-        }
-        
         DetectBubblesOnBackground();
         foreach (var bubble in bubbles)
         {
