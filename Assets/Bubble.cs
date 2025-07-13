@@ -5,8 +5,6 @@ using UnityEngine;
 
 public class Bubble : MonoBehaviour
 {
-    //public GameObject[] springs;
-
     public Vector2 force;
     public Vector2 velocity;
     public bool onGround;
