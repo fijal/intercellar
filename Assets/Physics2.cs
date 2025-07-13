@@ -50,11 +50,12 @@ public class Physics2 : MonoBehaviour
 
     public float ComputeInternalVolume()
     {
+        /* XXX assumes that the bubbles are listed in order, around the single cell */
         float area_times_2 = 0;
-        Vector2 p1 = springs[springs.Length - 1].end.transform.localPosition;
-        for (int i = 0; i < springs.Length; i++)
+        Vector2 p1 = bubbles[bubbles.Length - 1].transform.localPosition;
+        for (int i = 0; i < bubbles.Length; i++)
         {
-            Vector2 p2 = springs[i].end.transform.localPosition;
+            Vector2 p2 = bubbles[i].transform.localPosition;
             float s1 = p1.x;
             float t1 = p1.y;
             float s2 = p2.x;
