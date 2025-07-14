@@ -156,6 +156,9 @@ MonoBehaviour:
   force: {x: 0, y: 0}
   velocity: {x: 0, y: 0}
   onGround: 0
+  springs:
+  - {fileID: 0}
+  - {fileID: 0}
 --- !u!212 &13520845
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -291,6 +294,9 @@ MonoBehaviour:
   force: {x: 0, y: 0}
   velocity: {x: 0, y: 0}
   onGround: 0
+  springs:
+  - {fileID: 0}
+  - {fileID: 0}
 --- !u!212 &218247817
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -387,6 +393,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 26784f8f2506c49e1a34f77a86c452d8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  bubblePrefab: {fileID: 5199874672409747029, guid: f7280d3c0c8054e34a75db081a440900, type: 3}
+  world: {fileID: 1555690940}
   backgroundCollider: {fileID: 849735191}
 --- !u!4 &240226409
 Transform:
@@ -535,6 +543,9 @@ MonoBehaviour:
   force: {x: 0, y: 0}
   velocity: {x: 0, y: 0}
   onGround: 0
+  springs:
+  - {fileID: 0}
+  - {fileID: 0}
 --- !u!212 &371525919
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -894,7 +905,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0507197484fe3417ebccdf4c0510a1e6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  world: {fileID: 1555690940}
+  world: {fileID: 1555690942}
 --- !u!1 &986370692
 GameObject:
   m_ObjectHideFlags: 0
@@ -1027,6 +1038,9 @@ MonoBehaviour:
   force: {x: 0, y: 0}
   velocity: {x: 0, y: 0}
   onGround: 0
+  springs:
+  - {fileID: 0}
+  - {fileID: 0}
 --- !u!212 &1113479856
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -1202,6 +1216,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1555690941}
+  - component: {fileID: 1555690942}
   m_Layer: 0
   m_Name: World
   m_TagString: Untagged
@@ -1238,6 +1253,19 @@ Transform:
   - {fileID: 2105966518}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1555690942
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1555690940}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 64a17429983e941b58d3c1e6170ed8ae, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  physics: {fileID: 240226408}
 --- !u!1 &1843244428
 GameObject:
   m_ObjectHideFlags: 0
@@ -1462,6 +1490,9 @@ MonoBehaviour:
   force: {x: 0, y: 0}
   velocity: {x: 0, y: 0}
   onGround: 0
+  springs:
+  - {fileID: 0}
+  - {fileID: 0}
 --- !u!212 &1996864565
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -1562,6 +1593,9 @@ MonoBehaviour:
   force: {x: 0, y: 0}
   velocity: {x: 0, y: 0}
   onGround: 0
+  springs:
+  - {fileID: 0}
+  - {fileID: 0}
 --- !u!212 &2105966517
 SpriteRenderer:
   m_ObjectHideFlags: 0

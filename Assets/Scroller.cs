@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Scroller : MonoBehaviour
 {
-    public GameObject world;
+    public World world;
     static float SCROLL_SPEED = 4f;
     static float SCALE_FACTOR = 1.1f;
 
@@ -23,5 +23,9 @@ public class Scroller : MonoBehaviour
             world.transform.localScale *= (1 + SCALE_FACTOR * Time.deltaTime);
         if (Input.GetKey(KeyCode.E))
             world.transform.localScale *= 1/(1 + (SCALE_FACTOR * Time.deltaTime));
+        if (Input.GetKeyDown(KeyCode.P))
+            world.addBubble();
+        if (Input.GetKeyDown(KeyCode.O))
+            world.removeBubble();
     }
 }

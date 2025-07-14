@@ -9,6 +9,7 @@ public class Bubble : MonoBehaviour
     public Vector2 velocity;
     public bool onGround;
     const float mass = 1.0f;
+    public Spring[] springs;
 
     private void Start()
     {

@@ -31,4 +31,5 @@ public class Spring : MonoBehaviour
         var angle = Mathf.Rad2Deg * Mathf.Atan2(d.y, d.x);
         transform.localRotation = Quaternion.Euler(0, 0, angle);
     }
+
 }
