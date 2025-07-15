@@ -4,28 +4,18 @@ using UnityEngine;
 
 public class Physics2 : MonoBehaviour
 {
-    /*public*/ Bubble[] bubbles;
-    /*public*/ Spring[] springs;
-    public GameObject bubblePrefab;
-    public GameObject springPrefab;
-    public GameObject world;
+    public World world;
     public Collider2D backgroundCollider;
     
     private void Start()
     {
-        bubbles = FindObjectsByType<Bubble>(FindObjectsSortMode.None);
-        springs = FindObjectsByType<Spring>(FindObjectsSortMode.None);
-        foreach (var spring in springs)
-        {
-            spring.start.springs[0] = spring;
-            spring.end.springs[1] = spring;
-            // XXX refactor this to not have so many implicit assumptions
-        }
+    //    bubbles = FindObjectsByType<Bubble>(FindObjectsSortMode.None);
+    //   springs = FindObjectsByType<Spring>(FindObjectsSortMode.None);
     }
 
     public void addBubble()
     {
-        var idx = Random.Range(0, bubbles.Length);
+    /*    var idx = Random.Range(0, bubbles.Length);
         var prev = idx - 1;
         if (prev < 0)
             prev = bubbles.Length - 1;
@@ -34,7 +24,7 @@ public class Physics2 : MonoBehaviour
         System.Array.Copy(oldBubbles, 0, newBubbles, 0, prev + 1);
         System.Array.Copy(oldBubbles, idx, newBubbles, idx + 1, oldBubbles.Length - idx);
         var position = (Vector2)((bubbles[idx].transform.position + bubbles[prev].transform.position) / 2);
-        GameObject bubble = Instantiate(bubblePrefab, new Vector3(position.x, position.y, -1), Quaternion.identity, world.transform);
+        GameObject bubble = Instantiate(world.bubblePrefab, new Vector3(position.x, position.y, -1), Quaternion.identity, world.transform);
         newBubbles[idx] = bubble.GetComponent<Bubble>();
         
         Spring spring;
@@ -44,10 +34,10 @@ public class Physics2 : MonoBehaviour
             spring = oldBubbles[prev].springs[1];
         //Debug.Assert((spring.start == oldBubbles[idx] && spring.end == oldBubbles[prev]) ||
         //             (spring.end == oldBubbles[idx] && spring.start == oldBubbles[prev]));
-        var spr1 = Instantiate(springPrefab, new Vector3(0, 0, -1), Quaternion.identity, world.transform).GetComponent<Spring>();
+        var spr1 = Instantiate(world.springPrefab, new Vector3(0, 0, -1), Quaternion.identity, world.transform).GetComponent<Spring>();
         spr1.start = oldBubbles[prev];
         spr1.end = newBubbles[idx];
-        var spr2 = Instantiate(springPrefab, new Vector3(0, 0, -1), Quaternion.identity, world.transform).GetComponent<Spring>();
+        var spr2 = Instantiate(world.springPrefab, new Vector3(0, 0, -1), Quaternion.identity, world.transform).GetComponent<Spring>();
         spr2.start = newBubbles[idx];
         spr2.end = oldBubbles[idx];
         bubbles[idx].springs = new Spring[2] { spr1, spr2 };
@@ -70,7 +60,7 @@ public class Physics2 : MonoBehaviour
         }
         newSprings[newSprings.Length - 1] = spr2;
         springs = newSprings;
-        Destroy(spring.gameObject);
+        Destroy(spring.gameObject);*/
     }
 
     public void removeBubble()
@@ -80,23 +70,13 @@ public class Physics2 : MonoBehaviour
 
     void FixedUpdate()
     {
-        foreach (var bubble in bubbles)
-        {
-            bubble.force = Vector2.zero;
-        }
-        foreach (var spring in springs)
-        {
-            spring.calculateForces();
-        }
+        world.foreachBubble(x => {
+            x.force = Vector2.zero;
+        });
+        world.foreachSpring(x => { x.calculateForces(); });
         DetectBubblesOnBackground();
-        foreach (var bubble in bubbles)
-        {
-            bubble.move();
-        }
-        foreach (var spring in springs)
-        {
-            spring.adjustPosition();
-        }
+        world.foreachBubble(x => { x.move(); });
+        world.foreachSpring(x => { x.adjustPosition(); });
         var vol = ComputeInternalVolume();
         var center = ComputeCenter();
     }
@@ -115,7 +95,9 @@ public class Physics2 : MonoBehaviour
 
     public float ComputeInternalVolume()
     {
-        /* XXX assumes that the bubbles are listed in order, around the single cell */
+        return 0f;
+        /*
+        /* XXX assumes that the bubbles are listed in order, around the single cell 
         float area_times_2 = 0;
         Vector2 p1 = bubbles[bubbles.Length - 1].transform.localPosition;
         for (int i = 0; i < bubbles.Length; i++)
@@ -128,15 +110,16 @@ public class Physics2 : MonoBehaviour
             area_times_2 += (s1 - s2) * (t1 + t2);
             p1 = p2;
         }
-        return Mathf.Abs(area_times_2 * 0.5f);
+        return Mathf.Abs(area_times_2 * 0.5f);*/
     }
 
     public Vector2 ComputeCenter()
     {
-        Vector2 center = new Vector2(0, 0);
+        /*Vector2 center = new Vector2(0, 0);
         foreach (var bubble in bubbles)
             center += (Vector2)bubble.transform.position;
         center /= bubbles.Length;
-        return center;
+        return center;*/
+        return Vector2.zero;
     }
 }

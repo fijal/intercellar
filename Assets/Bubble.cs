@@ -9,12 +9,13 @@ public class Bubble : MonoBehaviour
     public Vector2 velocity;
     public bool onGround;
     const float mass = 1.0f;
-    public Spring[] springs;
+    //public Spring[] springs;
 
     private void Start()
     {
         var my_coll = gameObject.AddComponent<CircleCollider2D>();
         my_coll.radius = 0.93f;
+        transform.GetChild(0).gameObject.SetActive(false);
     }
 
     public void applyForce(float force, Vector2 direction)
