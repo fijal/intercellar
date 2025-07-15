@@ -20,8 +20,11 @@ public class World : MonoBehaviour
         var bub1 = spawnBubble(0, 0);
         var bub2 = spawnBubble(-2, -1);
         var bub3 = spawnBubble(-2, 3);
+        var bub4 = spawnBubble(2, 3);
         createSpring(bub1, bub2);
         createSpring(bub2, bub3);
+        createSpring(bub3, bub4);
+        createSpring(bub4, bub1);
     }
 
     public Bubble spawnBubble(float x, float y)
@@ -62,8 +65,53 @@ public class World : MonoBehaviour
         springs.Add(spr1);
         springs.Add(spr2);
         Destroy(spring.gameObject);
-
     }
+
+    public void removeBubble(Bubble bubble)
+    {
+        // XXX this is a hack to find the right spring, probably some bookkeeping would be better
+        HashSet<Spring> ss = new HashSet<Spring>();
+        HashSet<Bubble> neighbours = new HashSet<Bubble>();
+        foreachSpring(s =>
+        {
+            if (s.start == bubble)
+            {
+                ss.Add(s);
+                neighbours.Add(s.end);
+            } else if (s.end == bubble)
+            {
+                ss.Add(s);
+                neighbours.Add(s.start);
+            }
+        });
+
+        foreach (var s in ss)
+        {
+            springs.Remove(s);
+            Destroy(s.gameObject);
+        }
+
+        bubbles.Remove(bubble);
+        Destroy(bubble.gameObject);
+
+        if (neighbours.Count == 1)
+            return; // we don't need to create anything just yet
+        Debug.Assert(neighbours.Count == 2);
+        Bubble b1 = null, b2 = null;
+        foreach (var n in neighbours)
+        {
+            if (b1 == null)
+                b1 = n;
+            else if (b2 == null)
+                b2 = n;
+        }
+        var spr = Instantiate(springPrefab, new Vector3(0, 0, -1), Quaternion.identity, transform).GetComponent<Spring>();
+        spr.start = b1;
+        spr.end = b2;
+        springs.Add(spr);
+        spr.adjustPosition();
+    }
+
     public void foreachBubble(Action<Bubble> func)
     {
         foreach (var b in bubbles)

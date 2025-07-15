@@ -27,7 +27,7 @@ public class Bubble : MonoBehaviour
     {
         var a = force / mass;
         velocity += a * 0.1f;
-        velocity += new Vector2(0, onGround ? 0.010f : -0.002f);
+        //velocity += new Vector2(0, onGround ? 0.010f : -0.002f); // XXX disable gravity
         velocity *= 0.95f;
         transform.localPosition += new Vector3(velocity.x, velocity.y, 0);
         

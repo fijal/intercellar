@@ -57,6 +57,7 @@ public class Scroller : MonoBehaviour
             {
                 if (lastHighlighted.GetComponent<Bubble>())
                 {
+                    world.removeBubble(lastHighlighted.GetComponent<Bubble>());
                     //Debug.Log("clicked bubble");
                 } else if (lastHighlighted.GetComponent<Spring>())
                 {
@@ -64,5 +65,6 @@ public class Scroller : MonoBehaviour
                 }
             }
         }
+
     }
 }
