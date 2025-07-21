@@ -6,7 +6,7 @@ public class Spring : MonoBehaviour
 {
     public Bubble start, end;
 
-    const float LENGTH = 4.0f;
+    const float LENGTH = 1.0f;
 
     public void calculateForces()
     {
@@ -24,8 +24,8 @@ public class Spring : MonoBehaviour
     {
         var newPos = (Vector2)(end.transform.localPosition + start.transform.localPosition) / 2;
         transform.localPosition = new Vector3(newPos.x, newPos.y, transform.localPosition.z);
-        var newLength = Vector2.Distance(end.transform.localPosition, start.transform.localPosition) / 2 - 1;
-        var newWidth = 0.1f;
+        var newLength = Vector2.Distance(end.transform.localPosition, start.transform.localPosition) / 2 - 0.18f;
+        var newWidth = 0.03f;
         transform.localScale = new Vector3(newLength, newWidth, 1);
         var d = end.transform.localPosition - start.transform.localPosition;
         var angle = Mathf.Rad2Deg * Mathf.Atan2(d.y, d.x);

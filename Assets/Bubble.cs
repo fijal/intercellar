@@ -8,13 +8,14 @@ public class Bubble : MonoBehaviour
     public Vector2 force;
     public Vector2 velocity;
     public bool onGround;
+    public bool fixedGround;
     const float mass = 1.0f;
     //public Spring[] springs;
 
     private void Start()
     {
-        var my_coll = gameObject.AddComponent<CircleCollider2D>();
-        my_coll.radius = 0.93f;
+        /*var my_coll = gameObject.AddComponent<CircleCollider2D>();
+        my_coll.radius = 0.93f;*/
         transform.GetChild(0).gameObject.SetActive(false);
     }
 
@@ -23,12 +24,21 @@ public class Bubble : MonoBehaviour
         this.force += force * direction.normalized;
     }
 
+    public void addFlowForce()
+    {
+        float value;
+        value = Mathf.Max(5 - Mathf.Abs(transform.localPosition.y), 0) * 0.01f;
+        applyForce(value, new Vector2(-1f, -0));
+    }
+
     public void move()
     {
+        if (fixedGround)
+            return;
         var a = force / mass;
         velocity += a * 0.1f;
         //velocity += new Vector2(0, onGround ? 0.010f : -0.002f); // XXX disable gravity
-        velocity *= 0.95f;
+        velocity *= 0.97f;
         transform.localPosition += new Vector3(velocity.x, velocity.y, 0);
         
         onGround = false;

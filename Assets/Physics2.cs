@@ -18,6 +18,16 @@ public class Physics2 : MonoBehaviour
         });
         world.foreachSpring(x => { x.calculateForces(); });
         DetectBubblesOnBackground();
+        world.foreachBubble(x => { x.addFlowForce();  });
+        if (world.selected)
+        {
+            Vector2 pos = Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y));
+            var vec = pos - (Vector2)(world.selected.transform.position);
+            world.selected.GetComponent<Bubble>().applyForce(vec.magnitude * 0.1f, vec);
+        }
+
+        // done applying forces
+
         world.foreachBubble(x => { x.move(); });
         world.foreachSpring(x => { x.adjustPosition(); });
         var vol = ComputeInternalVolume();

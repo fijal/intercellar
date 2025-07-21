@@ -11,25 +11,41 @@ public class World : MonoBehaviour
 
     public GameObject bubblePrefab;
     public GameObject springPrefab;
+    public GameObject selected;
 
     HashSet<Bubble> bubbles = new HashSet<Bubble>();
     HashSet<Spring> springs = new HashSet<Spring>();
 
     public void Start()
     {
-        var bub1 = spawnBubble(0, 0);
+        /*var bub1 = spawnBubble(0, 0);
         var bub2 = spawnBubble(-2, -1);
         var bub3 = spawnBubble(-2, 3);
         var bub4 = spawnBubble(2, 3);
         createSpring(bub1, bub2);
         createSpring(bub2, bub3);
         createSpring(bub3, bub4);
-        createSpring(bub4, bub1);
+        createSpring(bub4, bub1);*/
+    }
+
+    public void Update()
+    {
+        if (UnityEngine.Random.Range(0, 1f) < 0.3f * Time.deltaTime)
+        {
+            var bub = spawnBubble(18f, UnityEngine.Random.Range(-5f, 5f));
+            bub.velocity += new Vector2(UnityEngine.Random.Range(-0.2f, 0f), UnityEngine.Random.Range(-0.1f, 0.1f));
+        }
+    }
+
+    public void setPulled(GameObject obj)
+    {
+        selected = obj;
     }
 
     public Bubble spawnBubble(float x, float y)
     {
-        var obj = Instantiate(bubblePrefab, new Vector3(x, y, -1), Quaternion.identity, transform);
+        var obj = Instantiate(bubblePrefab, new Vector3(0, 0, -1), Quaternion.identity, transform);
+        obj.transform.localPosition = new Vector3(x, y, -1);
         var bub = obj.GetComponent<Bubble>();
         bubbles.Add(bub);
         return bub;

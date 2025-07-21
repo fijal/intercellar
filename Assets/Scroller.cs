@@ -8,6 +8,7 @@ public class Scroller : MonoBehaviour
     static float SCROLL_SPEED = 4f;
     static float SCALE_FACTOR = 1.1f;
 
+    GameObject selected;
     GameObject lastHighlighted;
 
     void Update()
@@ -29,13 +30,47 @@ public class Scroller : MonoBehaviour
             world.addBubble();
         if (Input.GetKeyDown(KeyCode.O))
             world.removeBubble();*/
-        Vector2 pos = Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y));
+        if (Input.GetMouseButtonDown(0))
+        {
+            Vector2 pos = Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y));
+            var hit = Physics2D.Raycast(pos, Vector2.zero);
+            if (hit)
+            {
+                var bubble = hit.collider.gameObject.GetComponent<Bubble>();
+                if (bubble)
+                {
+                    if (hit.collider.gameObject == selected)
+                    {
+                        world.setPulled(null);
+                        selected = null;
+                        selected.transform.GetChild(0).gameObject.SetActive(false);
+                    }
+                    else
+                    {
+                        bubble.gameObject.transform.GetChild(0).gameObject.SetActive(true);
+                        world.setPulled(hit.collider.gameObject);
+                        if (selected != null)
+                            selected.transform.GetChild(0).gameObject.SetActive(false);
+                        selected = bubble.gameObject;
+                    }
+                }
+            } else
+            {
+                world.setPulled(null);
+                if (selected != null)
+                {
+                    selected.transform.GetChild(0).gameObject.SetActive(false);
+                    selected = null;
+                }
+            }
+        }
+        //Vector2 pos = Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y));
         if (lastHighlighted)
         {
             lastHighlighted.transform.GetChild(0).gameObject.SetActive(false);
             lastHighlighted = null;
         }
-        var hit = Physics2D.Raycast(pos, Vector2.zero);
+        /*
         if (hit) {
             var bubble = hit.collider.gameObject.GetComponent<Bubble>();
             if (bubble)
@@ -49,9 +84,9 @@ public class Scroller : MonoBehaviour
                 spring.gameObject.transform.GetChild(0).gameObject.SetActive(true);
                 lastHighlighted = spring.gameObject;
             }
-        }
+        }*/
 
-        if (Input.GetMouseButtonDown(0))
+        /*if (Input.GetMouseButtonDown(0))
         {
             if (lastHighlighted)
             {
@@ -64,7 +99,7 @@ public class Scroller : MonoBehaviour
                     world.addBubbleInSpring(lastHighlighted.GetComponent<Spring>(), hit.centroid);
                 }
             }
-        }
+        }*/
 
     }
 }
