@@ -13,6 +13,7 @@ public class Physics2 : MonoBehaviour
     
     void FixedUpdate()
     {
+        // start force calculation
         world.foreachBubble(x => {
             x.force = Vector2.zero;
         });
@@ -27,6 +28,16 @@ public class Physics2 : MonoBehaviour
         }
 
         // done applying forces
+
+        world.foreachBubble(bub =>
+        {
+            var hit = Physics2D.OverlapCircle(bub.transform.position, 0.7f * transform.localScale.x);
+            if (hit && hit.gameObject != bub.gameObject && hit.gameObject.GetComponent<Bubble>())
+            {
+                //Debug.Log(hit.gameObject.GetComponent<Bubble>());
+                world.createSpring(hit.gameObject.GetComponent<Bubble>(), bub);
+            }
+        });
 
         world.foreachBubble(x => { x.move(); });
         world.foreachSpring(x => { x.adjustPosition(); });

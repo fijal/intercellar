@@ -16,6 +16,8 @@ public class World : MonoBehaviour
     HashSet<Bubble> bubbles = new HashSet<Bubble>();
     HashSet<Spring> springs = new HashSet<Spring>();
 
+    int bubbleCounter = 1;
+
     public void Start()
     {
         /*var bub1 = spawnBubble(0, 0);
@@ -45,6 +47,8 @@ public class World : MonoBehaviour
     public Bubble spawnBubble(float x, float y)
     {
         var obj = Instantiate(bubblePrefab, new Vector3(0, 0, -1), Quaternion.identity, transform);
+        obj.name = String.Format("bubble {0}", bubbleCounter);
+        bubbleCounter++;
         obj.transform.localPosition = new Vector3(x, y, -1);
         var bub = obj.GetComponent<Bubble>();
         bubbles.Add(bub);
@@ -53,6 +57,13 @@ public class World : MonoBehaviour
 
     public Spring createSpring(Bubble start, Bubble end)
     {
+        // check if the Spring already does not exist
+        // XXX note that this is inefficient, indexing by a pair of Bubbles is probably the best way
+        foreach (var s in springs)
+        {
+            if ((s.start == start && s.end == end) || (s.start == end && s.end == start))
+                return s; // spring already exists
+        }
         var center = (end.transform.position - start.transform.position);
         var obj = Instantiate(springPrefab, new Vector3(center.x, center.y, -1), Quaternion.identity, transform);
         var spring = obj.GetComponent<Spring>();
