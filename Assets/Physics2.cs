@@ -6,7 +6,12 @@ public class Physics2 : MonoBehaviour
 {
     public World world;
     public Collider2D backgroundCollider;
-    
+    public GameObject smudgePrefab;
+
+    public const float VISCOSITY = 0.95f;
+    public const float MAX_STREAM_FORCE = 0.03f;
+    public const float MAX_STREAM_RANGE = 4f;
+
     private void Start()
     {
     }
@@ -34,6 +39,12 @@ public class Physics2 : MonoBehaviour
             var hit = Physics2D.OverlapCircle(bub.transform.position, 0.7f * transform.localScale.x);
             if (hit && hit.gameObject != bub.gameObject && hit.gameObject.GetComponent<Bubble>())
             {
+                //Debug.Log(string.Format("scale: {0}", transform.localScale.x * 0.7f));
+                //Debug.Log(hit.gameObject);
+                //Debug.Log(bub.gameObject);
+                //Debug.Log(hit.gameObject.transform.position);
+                //Debug.Log(bub.gameObject.transform.position);
+
                 //Debug.Log(hit.gameObject.GetComponent<Bubble>());
                 world.createSpring(hit.gameObject.GetComponent<Bubble>(), bub);
             }

@@ -12,7 +12,7 @@ public class World : MonoBehaviour
     public GameObject bubblePrefab;
     public GameObject springPrefab;
     public GameObject selected;
-
+    
     HashSet<Bubble> bubbles = new HashSet<Bubble>();
     HashSet<Spring> springs = new HashSet<Spring>();
 
@@ -20,18 +20,15 @@ public class World : MonoBehaviour
 
     public void Start()
     {
-        /*var bub1 = spawnBubble(0, 0);
-        var bub2 = spawnBubble(-2, -1);
-        var bub3 = spawnBubble(-2, 3);
-        var bub4 = spawnBubble(2, 3);
-        createSpring(bub1, bub2);
-        createSpring(bub2, bub3);
-        createSpring(bub3, bub4);
-        createSpring(bub4, bub1);*/
+        /*spawnBubble(0, 0);
+        spawnBubble(2, 2);
+        spawnBubble(0, 2);
+        spawnBubble(2, 0);*/
     }
 
     public void Update()
     {
+        // spawn a new bubble roughly every 3 seconds
         if (UnityEngine.Random.Range(0, 1f) < 0.3f * Time.deltaTime)
         {
             var bub = spawnBubble(18f, UnityEngine.Random.Range(-5f, 5f));
@@ -63,6 +60,28 @@ public class World : MonoBehaviour
         {
             if ((s.start == start && s.end == end) || (s.start == end && s.end == start))
                 return s; // spring already exists
+        }
+        // also check that the new spring is not within 90 degrees of an existing one
+        foreach (var s in springs)
+        {
+            Vector2 r;
+            Bubble one, two;
+            r = s.angleRelativeToBubble(start);
+            if (r == Vector2.zero)
+            {
+                r = s.angleRelativeToBubble(end);
+                one = end;
+                two = start;
+            } else
+            {
+                one = start;
+                two = end;
+            }
+            if (r == Vector2.zero)
+                continue;
+            var ang = Vector2.Angle(r, two.transform.position - one.transform.position);
+            if (ang < 45 || ang > (360 - 45))
+                return null;
         }
         var center = (end.transform.position - start.transform.position);
         var obj = Instantiate(springPrefab, new Vector3(center.x, center.y, -1), Quaternion.identity, transform);

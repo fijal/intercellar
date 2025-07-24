@@ -26,8 +26,10 @@ public class Bubble : MonoBehaviour
 
     public void addFlowForce()
     {
+        // the stream flows with max speed of MAX_STREAM_FORCE in the middle of the channel,
+        // while dropping linearly to 0 at MAX_STREAM_RANGE
         float value;
-        value = Mathf.Max(5 - Mathf.Abs(transform.localPosition.y), 0) * 0.01f;
+        value = Mathf.Max(Physics2.MAX_STREAM_RANGE - Mathf.Abs(transform.localPosition.y), 0) / Physics2.MAX_STREAM_RANGE * Physics2.MAX_STREAM_FORCE;
         applyForce(value, new Vector2(-1f, -0));
     }
 
@@ -38,7 +40,7 @@ public class Bubble : MonoBehaviour
         var a = force / mass;
         velocity += a * 0.1f;
         //velocity += new Vector2(0, onGround ? 0.010f : -0.002f); // XXX disable gravity
-        velocity *= 0.97f;
+        velocity *= Physics2.VISCOSITY;
         transform.localPosition += new Vector3(velocity.x, velocity.y, 0);
         
         onGround = false;

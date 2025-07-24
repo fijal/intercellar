@@ -32,4 +32,19 @@ public class Spring : MonoBehaviour
         transform.localRotation = Quaternion.Euler(0, 0, angle);
     }
 
+    public Vector2 angleRelativeToBubble(Bubble bub)
+    {
+        // returns an angle to which this spring attaches to bubble, Vector2.zero if it does not
+        if (bub == start)
+        {
+            return end.transform.position - start.transform.position;
+        } else if (bub == end)
+        {
+            return start.transform.position - end.transform.position;
+        } else
+        {
+            return Vector2.zero;
+        }
+    }
+
 }
