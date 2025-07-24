@@ -18,6 +18,9 @@ public class Physics2 : MonoBehaviour
     
     void FixedUpdate()
     {
+        // NOTE: this is apparently necessary for using colliders here
+        Physics2D.SyncTransforms();
+
         // start force calculation
         world.foreachBubble(x => {
             x.force = Vector2.zero;
@@ -39,13 +42,14 @@ public class Physics2 : MonoBehaviour
             var hit = Physics2D.OverlapCircle(bub.transform.position, 0.7f * transform.localScale.x);
             if (hit && hit.gameObject != bub.gameObject && hit.gameObject.GetComponent<Bubble>())
             {
-                //Debug.Log(string.Format("scale: {0}", transform.localScale.x * 0.7f));
-                //Debug.Log(hit.gameObject);
-                //Debug.Log(bub.gameObject);
-                //Debug.Log(hit.gameObject.transform.position);
-                //Debug.Log(bub.gameObject.transform.position);
-
-                //Debug.Log(hit.gameObject.GetComponent<Bubble>());
+                if (((Vector2)(hit.transform.position - bub.transform.position)).magnitude > 1.0f)
+                {
+                    Debug.Log(string.Format("scale: {0}", transform.localScale.x * 0.7f));
+                    Debug.Log(hit.gameObject);
+                    Debug.Log(bub.gameObject);
+                    Debug.Log(hit.gameObject.transform.position);
+                    Debug.Log(bub.gameObject.transform.position);
+                }
                 world.createSpring(hit.gameObject.GetComponent<Bubble>(), bub);
             }
         });

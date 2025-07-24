@@ -80,9 +80,12 @@ public class World : MonoBehaviour
             if (r == Vector2.zero)
                 continue;
             var ang = Vector2.Angle(r, two.transform.position - one.transform.position);
-            if (ang < 45 || ang > (360 - 45))
+            var HALF_RANGE = 90;
+            if (ang < HALF_RANGE || ang > (360 - HALF_RANGE))
                 return null;
         }
+        // we are actually creating a spring
+        Debug.Log(((Vector2)(end.transform.position - start.transform.position)).magnitude);
         var center = (end.transform.position - start.transform.position);
         var obj = Instantiate(springPrefab, new Vector3(center.x, center.y, -1), Quaternion.identity, transform);
         var spring = obj.GetComponent<Spring>();
