@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -26,7 +27,6 @@ public class Physics2 : MonoBehaviour
             x.force = Vector2.zero;
         });
         world.foreachSpring(x => { x.calculateForces(); });
-        DetectBubblesOnBackground();
         world.foreachBubble(x => { x.addFlowForce();  });
         if (world.selected)
         {
@@ -34,6 +34,7 @@ public class Physics2 : MonoBehaviour
             var vec = pos - (Vector2)(world.selected.transform.position);
             world.selected.GetComponent<Bubble>().applyForce(vec.magnitude * 0.1f, vec);
         }
+        DetectBubblesOnBackground();
 
         // done applying forces
 
@@ -68,7 +69,12 @@ public class Physics2 : MonoBehaviour
         {
             var bubble = coll.GetComponent<Bubble>();
             if (bubble != null)
-                bubble.onGround = true;
+            {
+                var d = Physics2D.Distance(backgroundCollider, coll);
+                Debug.Assert(d.isValid);
+                var proj = (Vector2)(Vector3.Project(bubble.velocity, d.normal));
+                bubble.velocity = -proj + (bubble.velocity - proj);
+            }
         }
     }
 
